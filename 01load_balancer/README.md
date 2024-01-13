@@ -6,3 +6,11 @@
 1. Round Robin - for every new user send the request to the next server sequentially
     - simple algorithm
 2. Random select
+
+# IMPLEMENTATION
+Implement the L4 load balancer as a package.
+
+- The type of load balancing is round robin,
+- For health check both active check and passive check are supported
+- Persistence is not supported (3rd party tools can be used)
+

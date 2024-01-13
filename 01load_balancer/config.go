@@ -20,6 +20,21 @@ type Backend struct {
 	mu     sync.RWMutex //???why do we need a mutex on all backends in config
 }
 
+// SetDead updates the value of IsDead in Backend.
+func (backend *Backend) SetDead(b bool) {
+	backend.mu.Lock()
+	backend.IsDead = b
+	backend.mu.Unlock()
+}
+
+// GetIsDead returns the value of IsDead in Backend.
+func (backend *Backend) GetIsDead() bool {
+	backend.mu.RLock()
+	isAlive := backend.IsDead
+	backend.mu.RUnlock()
+	return isAlive
+}
+
 // Config is the configuration of the user
 type Config struct {
 	Proxy    Proxy     `json:"proxy"`
@@ -27,7 +42,7 @@ type Config struct {
 }
 
 // init for Config object
-func (c *Config) Init() {
+func (c *Config) init() {
 	data, err := os.ReadFile("./config.json")
 	if err != nil {
 		log.Fatal(err.Error())
